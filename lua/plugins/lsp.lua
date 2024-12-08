@@ -7,7 +7,6 @@ return {
 				"luacheck",
 				"shellcheck",
 				"shfmt",
-				"tailwindcss-language-server",
 				"typescript-language-server",
 				"css-lsp",
 			})
@@ -22,11 +21,6 @@ return {
 			---@type lspconfig.options
 			servers = {
 				cssls = {},
-				tailwindcss = {
-					root_dir = function(...)
-						return require("lspconfig.util").root_pattern(".git")(...)
-					end,
-				},
 				tsserver = {
 					root_dir = function(...)
 						return require("lspconfig.util").root_pattern(".git")(...)
@@ -132,20 +126,6 @@ return {
 		dependencies = { "hrsh7th/cmp-emoji" },
 		opts = function(_, opts)
 			table.insert(opts.sources, { name = "emoji" })
-			local cmp = require("cmp")
-			local lspkind = require("lspkind")
-
-			opts.formatting = {
-				format = lspkind.cmp_format({
-					mode = "symbol_text",
-					maxwidth = 50,
-					ellipsis_char = "...",
-					show_labelDetails = true, -- Menampilkan detail tambahan
-					before = function(entry, vim_item)
-						return vim_item
-					end,
-				}),
-			}
 		end,
 	},
 }
