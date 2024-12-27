@@ -14,10 +14,11 @@ return {
   },
 
   -- lsp servers
+
   {
     "neovim/nvim-lspconfig",
     opts = {
-      inlay_hints = { enabled = true },
+      inlay_hints = { enabled = false },
       ---@type lspconfig.options
       servers = {
         cssls = {},
@@ -38,6 +39,7 @@ return {
                 includeInlayEnumMemberValueHints = true,
               },
             },
+
             javascript = {
               inlayHints = {
                 includeInlayParameterNameHints = "all",
@@ -51,8 +53,10 @@ return {
             },
           },
         },
+
         html = {},
         lua_ls = {
+
           -- enabled = false,
           single_file_support = true,
           settings = {
@@ -64,11 +68,14 @@ return {
                 workspaceWord = true,
                 callSnippet = "Both",
               },
+
               misc = {
                 parameters = {
+
                   -- "--log-level=trace",
                 },
               },
+
               hint = {
                 enable = true,
                 setType = false,
@@ -77,19 +84,24 @@ return {
                 semicolon = "Disable",
                 arrayIndex = "Disable",
               },
+
               doc = {
                 privateName = { "^_" },
               },
+
               type = {
                 castNumberToInteger = true,
               },
+
               diagnostics = {
                 disable = { "incomplete-signature-doc", "trailing-space" },
                 -- enable = false,
+
                 groupSeverity = {
                   strong = "Warning",
                   strict = "Warning",
                 },
+
                 groupFileStatus = {
                   ["ambiguity"] = "Opened",
                   ["await"] = "Opened",
@@ -110,8 +122,8 @@ return {
                 enable = false,
                 defaultConfig = {
                   indent_style = "space",
-                  indent_size = "2",
-                  continuation_indent_size = "2",
+                  indent_size = "3",
+                  continuation_indent_size = "3",
                 },
               },
             },
@@ -121,11 +133,32 @@ return {
       setup = {},
     },
   },
+
   {
-    "nvim-cmp",
-    dependencies = { "hrsh7th/cmp-emoji" },
+
+    "hrsh7th/nvim-cmp",
+    dependencies = {
+      "hrsh7th/cmp-nvim-lsp",
+      "hrsh7th/cmp-buffer",
+      "hrsh7th/cmp-path",
+    },
     opts = function(_, opts)
-      table.insert(opts.sources, { name = "emoji" })
+      local cmp = require("cmp")
+      opts.mapping = cmp.mapping.preset.insert({
+        ["<C-Space>"] = cmp.mapping.complete(),
+        ["<CR>"] = cmp.mapping.confirm({ select = true }),
+      })
+      opts.sources = cmp.config.sources({
+        { name = "nvim_lsp" },
+        { name = "buffer" },
+        { name = "path" },
+      })
+      opts.mapping = cmp.mapping.preset.insert({
+        ["<C-Space>"] = cmp.mapping.complete(),
+        ["<CR>"] = cmp.mapping.confirm({ select = true }),
+        ["<C-n>"] = cmp.mapping.select_next_item(),
+        ["<C-p>"] = cmp.mapping.select_prev_item(),
+      })
     end,
   },
 }
