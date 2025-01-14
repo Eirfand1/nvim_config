@@ -8,7 +8,6 @@ return {
         "shellcheck",
         "shfmt",
         "typescript-language-server",
-        "css-lsp",
       })
     end,
   },
@@ -21,7 +20,6 @@ return {
       inlay_hints = { enabled = false },
       ---@type lspconfig.options
       servers = {
-        cssls = {},
         tsserver = {
           root_dir = function(...)
             return require("lspconfig.util").root_pattern(".git")(...)
@@ -54,7 +52,6 @@ return {
           },
         },
 
-        html = {},
         lua_ls = {
 
           -- enabled = false,
